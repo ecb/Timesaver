@@ -10,7 +10,7 @@ import Cocoa
 
 class VLNConfigurationWindowController: NSWindowController
 {
-	@IBOutlet var backgroundPopup: NSPopUpButton;
+	@IBOutlet var backgroundPopup: NSPopUpButton!;
 	
 	var configuration: VLNConfiguration;
 	
@@ -19,6 +19,10 @@ class VLNConfigurationWindowController: NSWindowController
 		self.configuration = configuration;
 		
 		super.init(window: nil);
+	}
+
+	required init?(coder: NSCoder) {
+	    fatalError("init(coder:) has not been implemented")
 	}
 	
 	override var windowNibName: String!
@@ -35,24 +39,24 @@ class VLNConfigurationWindowController: NSWindowController
 	
 	func loadDefaultValues()
 	{
-		self.backgroundPopup.selectItemAtIndex(self.configuration.backgroundColor.toRaw());
+		self.backgroundPopup.selectItemAtIndex(self.configuration.backgroundColor.rawValue);
 	}
 	
 	@IBAction func saveAndClose(button: NSButton)
 	{
 		self.configuration.saveChanges();
-		self.window.sheetParent.endSheet(self.window, returnCode: NSModalResponseOK);
+        self.window!.sheetParent!.endSheet(self.window!, returnCode: NSModalResponseOK);
 	}
 	
 	@IBAction func cancelAndClose(button: NSButton)
 	{
 		self.configuration.revertChanges();
 		loadDefaultValues();
-		self.window.sheetParent.endSheet(self.window, returnCode: NSModalResponseOK);
+        self.window!.sheetParent!.endSheet(self.window!, returnCode: NSModalResponseOK);
 	}
 	
 	@IBAction func backgroundPopUpChanged(popup: NSPopUpButton)
 	{
-		self.configuration.backgroundColor = VLNBackgroundColor.fromRaw(popup.indexOfSelectedItem);
+		self.configuration.backgroundColor = VLNBackgroundColor(rawValue: popup.indexOfSelectedItem);
 	}
 }

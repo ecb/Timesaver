@@ -10,12 +10,12 @@ import Cocoa
 
 class AppDelegate: NSObject, NSApplicationDelegate
 {
-	@IBOutlet var window: NSWindow;
+	@IBOutlet var window: NSWindow?;
 	
 	var screensaver: TimesaverView;
 	var animationTimer: NSTimer?;
 	
-	init()
+override 	init()
 	{
 		self.screensaver = TimesaverView(frame: NSZeroRect, isPreview: false);
 		
@@ -24,9 +24,9 @@ class AppDelegate: NSObject, NSApplicationDelegate
 	
 	func applicationDidFinishLaunching(notification: NSNotification!)
 	{
-		self.screensaver.frame = self.window.contentView.bounds;
+		self.screensaver.frame = self.window!.contentView.bounds;
 		self.screensaver.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable | NSAutoresizingMaskOptions.ViewHeightSizable;
-		self.window.contentView.addSubview(self.screensaver);
+		self.window!.contentView.addSubview(self.screensaver);
 		
 		self.startAnimation();
 	}
@@ -39,7 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate
 		
 		stopAnimation();
 		
-		self.window.beginSheet(self.screensaver.configureSheet(), completionHandler:{
+		self.window!.beginSheet(self.screensaver.configureSheet(), completionHandler:{
 																						(NSModalResponse) -> Void in
 																							self.startAnimation();
 																					});
@@ -48,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate
 	
 	func startAnimation ()
 	{
-		if self.animationTimer? {
+		if self.animationTimer? != nil {
 			return;
 		}
 		
